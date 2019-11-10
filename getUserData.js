@@ -30,4 +30,13 @@ exports.handler = async (event, context) => {
         statusCode = 403;
     }
 
+    const response = {
+        statusCode: statusCode,
+        headers: {
+            "test header" : "test"
+        },
+        body: responsBody
+    }
+
+    return response;
 }
