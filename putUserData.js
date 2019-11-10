@@ -7,20 +7,35 @@ exports.handler = async (event, context) => {
     const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
     const documentClient = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
 
+    let responsBody = "";
+    let statusCode = 0;
+
+    const { id, firstname, lastname } = JSON.parse(event.body);
     const params = {
         TableName: "tes",
         Item: {
-            id: "12345",
-            firstname: "dana",
-            lastname: "white"
+            id: id,
+            firstname: firstname,
+            lastname: lastname
         }
     }
 
     try {
         const data = await documentClient.put(params).promise();
-        console.log(data);
+        responsBody = JSON.stringify(data);
+        statusCode = 201;
     } catch (err) {
-        console.log(err);
+        responsBody = "Unable to process";
+        statusCode = 403;
     }
 
+    const response = {
+        statusCode: statusCode,
+        headers: {
+            "test header" : "test"
+        },
+        body: responsBody
+    }
+
+    return response;
 }
