@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
 
     const params = {
         TableName: "tes",
-        Key: {
+        Item: {
             id: "12345",
             firstname: "dana",
             lastname: "white"
